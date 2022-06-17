@@ -30,13 +30,13 @@ public class AdvertisementController {
     }
 
     @GetMapping("/CreatedAtASC")
-    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtAsc(){
-        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtAsc();
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtAsc(LocalDateTime time){
+        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtAsc(time);
     }
 
     @GetMapping("/CreatedAtDESC")
-    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtDesc(){
-        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtDesc();
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtDesc(LocalDateTime time){
+        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtDesc(time);
     }
 
     @GetMapping("/title")

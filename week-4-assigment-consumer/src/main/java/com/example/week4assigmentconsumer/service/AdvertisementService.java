@@ -20,7 +20,7 @@ public class AdvertisementService {
         this.helper = helper;
     }
 
-    @RabbitListener(queues = "${queue.name}")
+    @RabbitListener(queues = "${advertisement-queue.name}")
     public void createAdvertisement(AdvertisementDTO advertisementDTO) throws InterruptedException{
         Thread.sleep(60*1000);
         advertisementDTO.setDescription(descriptionHelper.generateDescription());

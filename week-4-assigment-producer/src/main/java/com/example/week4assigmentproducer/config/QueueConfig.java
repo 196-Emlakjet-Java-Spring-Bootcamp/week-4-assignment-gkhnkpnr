@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,17 +16,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueConfig {
     @Value("${queue.name}")
-    private String message;
+    private String userQueue;
+
+    @Value("${advertisement-queue.name}")
+    private String advertisementQueue;
 
     @Value("${spring.rabbitmq.template.exchange}")
     private String exchangeName;
 
-    @Value("${spring.rabbitmq.template.routing-key}")
-    private String routingName;
+    @Bean
+    public Queue userQueue() {
+        return new Queue(userQueue, true);
+    }
 
     @Bean
-    public Queue queue() {
-        return new Queue(message, true);
+    public Queue advertisementQueue() {
+        return new Queue(advertisementQueue, true);
     }
 
     @Bean
@@ -34,8 +40,13 @@ public class QueueConfig {
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange directExchange){
-        return BindingBuilder.bind(queue).to(directExchange).with(routingName);
+    Binding userBinding(@Qualifier("userQueue") Queue queue, DirectExchange directExchange){
+        return BindingBuilder.bind(queue).to(directExchange).with("user-routing");
+    }
+
+    @Bean
+    Binding advertisementBinding(@Qualifier("advertisementQueue") Queue queue, DirectExchange directExchange){
+        return BindingBuilder.bind(queue).to(directExchange).with("advertisement-routing");
     }
 
     @Bean

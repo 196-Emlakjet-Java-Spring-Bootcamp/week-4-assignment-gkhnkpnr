@@ -6,6 +6,7 @@ import com.example.week4assigmentproducer.entity.Advertisement;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,12 +14,13 @@ import java.util.List;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService{
+
     private AdvertisementRepository advertisementRepository;
-    private RabbitTemplate rabbitTemplate;
-    private Queue queue;
+    private final RabbitTemplate rabbitTemplate;
+    private final Queue queue;
 
     @Autowired
-    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository,RabbitTemplate rabbitTemplate, Queue queue) {
+    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository, RabbitTemplate rabbitTemplate, @Qualifier("advertisementQueue") Queue queue) {
         this.advertisementRepository = advertisementRepository;
         this.rabbitTemplate = rabbitTemplate;
         this.queue = queue;
@@ -39,13 +41,13 @@ public class AdvertisementServiceImpl implements AdvertisementService{
     }
 
     @Override
-    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtAsc() {
-        return advertisementRepository.findAdvertisementsByCreatedAtOrderByCreatedAtAsc();
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtAsc(LocalDateTime time) {
+        return advertisementRepository.findAdvertisementsByCreatedAtOrderByCreatedAtAsc(time);
     }
 
     @Override
-    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtDesc() {
-        return advertisementRepository.findAdvertisementsByCreatedAtOrderByCreatedAtDesc();
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtDesc(LocalDateTime time) {
+        return advertisementRepository.findAdvertisementsByCreatedAtOrderByCreatedAtDesc(time);
     }
 
     @Override

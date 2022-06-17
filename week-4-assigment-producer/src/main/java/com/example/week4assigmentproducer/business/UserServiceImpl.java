@@ -4,6 +4,7 @@ import com.example.week4assigmentproducer.dto.UserDTO;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +14,7 @@ public class UserServiceImpl implements UserService{
     private Queue queue;
 
     @Autowired
-    public UserServiceImpl(RabbitTemplate rabbitTemplate, Queue queue) {
+    public UserServiceImpl(RabbitTemplate rabbitTemplate, @Qualifier("userQueue") Queue queue) {
         this.rabbitTemplate = rabbitTemplate;
         this.queue = queue;
     }
