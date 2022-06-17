@@ -1,6 +1,7 @@
 package com.example.week4assigmentproducer.controller;
 
 import com.example.week4assigmentproducer.business.UserService;
+import com.example.week4assigmentproducer.dto.UserDTO;
 import com.example.week4assigmentproducer.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.createUser(user);
+    public void createUser(@RequestBody UserDTO userDTO){
+        userService.createUser(userDTO);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.week4assigmentproducer.business;
 
+import com.example.week4assigmentproducer.dto.UserDTO;
 import com.example.week4assigmentproducer.entity.User;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(@Payload User user) {
-        rabbitTemplate.convertAndSend(this.queue.getName(),user);
+    public void createUser(@Payload UserDTO userDTO) {
+        rabbitTemplate.convertAndSend(this.queue.getName(),userDTO);
     }
 }
