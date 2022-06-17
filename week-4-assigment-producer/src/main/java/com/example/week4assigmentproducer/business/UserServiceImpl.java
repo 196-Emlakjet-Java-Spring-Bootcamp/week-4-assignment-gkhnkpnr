@@ -1,11 +1,9 @@
 package com.example.week4assigmentproducer.business;
 
 import com.example.week4assigmentproducer.dto.UserDTO;
-import com.example.week4assigmentproducer.entity.User;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +19,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(@Payload UserDTO userDTO) {
-        rabbitTemplate.convertAndSend(this.queue.getName(),userDTO);
+    public void createUser(UserDTO userDTO) {
+        int i = 1;
+        while (i < 51){
+            rabbitTemplate.convertAndSend(this.queue.getName(),userDTO);
+            i++;
+        }
+
     }
 }

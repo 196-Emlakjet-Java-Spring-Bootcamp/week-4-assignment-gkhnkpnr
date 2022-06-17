@@ -1,4 +1,4 @@
-package com.example.week4assigmentproducer.config;
+package com.example.week4assigmentconsumer.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
