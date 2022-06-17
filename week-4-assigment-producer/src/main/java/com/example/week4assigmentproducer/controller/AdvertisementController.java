@@ -2,14 +2,15 @@ package com.example.week4assigmentproducer.controller;
 
 import com.example.week4assigmentproducer.business.AdvertisementService;
 import com.example.week4assigmentproducer.dto.AdvertisementDTO;
+import com.example.week4assigmentproducer.entity.Advertisement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
-@RequestMapping("/advertisement")
+@RequestMapping("/api/advertisement")
 public class AdvertisementController {
     private AdvertisementService advertisementService;
 
@@ -21,5 +22,30 @@ public class AdvertisementController {
     @PostMapping
     public void createAdvertisement(@RequestBody AdvertisementDTO advertisementDTO){
         advertisementService.createAdvertisement(advertisementDTO);
+    }
+
+    @GetMapping("/CreatedAtBetween")
+    public List<Advertisement> findAdvertisementsByCreatedAtBetween(@RequestParam(name = "startDate") LocalDateTime startDate, @RequestParam("endDate") LocalDateTime endDate){
+        return advertisementService.findAdvertisementsByCreatedAtBetween(startDate,endDate);
+    }
+
+    @GetMapping("/CreatedAtASC")
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtAsc(){
+        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtAsc();
+    }
+
+    @GetMapping("/CreatedAtDESC")
+    public List<Advertisement> findAdvertisementsByCreatedAtOrderByCreatedAtDesc(){
+        return advertisementService.findAdvertisementsByCreatedAtOrderByCreatedAtDesc();
+    }
+
+    @GetMapping("/title")
+    public List<Advertisement> findAdvertisementsByTitleContainingIgnoreCase(String title){
+        return advertisementService.findAdvertisementsByTitleContainingIgnoreCase(title);
+    }
+
+    @GetMapping("/description")
+    public List<Advertisement> findAdvertisementsByDescriptionContainingIgnoreCase(String description){
+        return advertisementService.findAdvertisementsByDescriptionContainingIgnoreCase(description);
     }
 }
