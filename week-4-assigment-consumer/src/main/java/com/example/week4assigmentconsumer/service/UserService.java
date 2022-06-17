@@ -2,7 +2,7 @@ package com.example.week4assigmentconsumer.service;
 
 import com.example.week4assigmentconsumer.dao.UserRepository;
 import com.example.week4assigmentconsumer.dto.UserDTO;
-import com.example.week4assigmentconsumer.helper.dtoToEntityHelper;
+import com.example.week4assigmentconsumer.helper.UserDtoToEntityHelper;
 import com.example.week4assigmentconsumer.helper.emailGeneratorHelper;
 import com.example.week4assigmentconsumer.helper.firstNameHelper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -21,10 +21,10 @@ public class UserService {
     }
 
     @RabbitListener(queues = "${queue.name}")
-    public void createUser(@Payload UserDTO userDTO) throws InterruptedException{
+    public void createUser(@Payload UserDTO userDTO){
         userDTO.setFirstName(firstNameHelper.generateFirstName());
         userDTO.setLastName(firstNameHelper.generateFirstName());
         userDTO.setEmail(emailGeneratorHelper.generateEmail(userDTO.getFirstName(),userDTO.getLastName()));
-        userRepository.save(dtoToEntityHelper.transform(userDTO));
+        userRepository.save(UserDtoToEntityHelper.transform(userDTO));
     }
 }
